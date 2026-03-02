@@ -25,25 +25,16 @@ use Spryker\Glue\ProductImageSetsRestApi\Processor\Reader\ConcreteProductImageSe
 
 class ProductImageSetsRestApiFactory extends AbstractFactory
 {
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Mapper\AbstractProductImageSetsMapperInterface
-     */
     public function createAbstractProductImageSetsMapper(): AbstractProductImageSetsMapperInterface
     {
         return new AbstractProductImageSetsMapper();
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Mapper\ConcreteProductImageSetsMapperInterface
-     */
     public function createConcreteProductImageSetsMapper(): ConcreteProductImageSetsMapperInterface
     {
         return new ConcreteProductImageSetsMapper();
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Reader\AbstractProductImageSetsReaderInterface
-     */
     public function createAbstractProductImageSetsReader(): AbstractProductImageSetsReaderInterface
     {
         return new AbstractProductImageSetsReader(
@@ -54,9 +45,6 @@ class ProductImageSetsRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Reader\ConcreteProductImageSetsReaderInterface
-     */
     public function createConcreteProductImageSetsReader(): ConcreteProductImageSetsReaderInterface
     {
         return new ConcreteProductImageSetsReader(
@@ -67,33 +55,21 @@ class ProductImageSetsRestApiFactory extends AbstractFactory
         );
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Expander\AbstractProductsProductImageSetsResourceRelationshipExpanderInterface
-     */
     public function createAbstractProductsProductImageSetsResourceRelationshipExpander(): AbstractProductsProductImageSetsResourceRelationshipExpanderInterface
     {
         return new AbstractProductsProductImageSetsResourceRelationshipExpander($this->createAbstractProductImageSetsReader());
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Processor\Expander\ConcreteProductsProductImageSetsResourceRelationshipExpanderInterface
-     */
     public function createConcreteProductsProductImageSetsResourceRelationshipExpander(): ConcreteProductsProductImageSetsResourceRelationshipExpanderInterface
     {
         return new ConcreteProductsProductImageSetsResourceRelationshipExpander($this->createConcreteProductImageSetsReader());
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductStorageClientInterface
-     */
     public function getProductStorageClient(): ProductImageSetsRestApiToProductStorageClientInterface
     {
         return $this->getProvidedDependency(ProductImageSetsRestApiDependencyProvider::CLIENT_PRODUCT_STORAGE);
     }
 
-    /**
-     * @return \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductImageStorageClientInterface
-     */
     public function getProductImageStorageClient(): ProductImageSetsRestApiToProductImageStorageClientInterface
     {
         return $this->getProvidedDependency(ProductImageSetsRestApiDependencyProvider::CLIENT_PRODUCT_IMAGE_STORAGE);

@@ -54,12 +54,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
      */
     protected $abstractProductImageSetsMapper;
 
-    /**
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductStorageClientInterface $productStorageClient
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductImageStorageClientInterface $productImageStorageClient
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResourceBuilder
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Processor\Mapper\AbstractProductImageSetsMapperInterface $abstractProductImageSetsMapper
-     */
     public function __construct(
         ProductImageSetsRestApiToProductStorageClientInterface $productStorageClient,
         ProductImageSetsRestApiToProductImageStorageClientInterface $productImageStorageClient,
@@ -72,11 +66,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
         $this->abstractProductImageSetsMapper = $abstractProductImageSetsMapper;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function getAbstractProductImageSets(RestRequestInterface $restRequest): RestResponseInterface
     {
         $restResponse = $this->restResourceBuilder->createRestResponse();
@@ -99,12 +88,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
         return $restResponse->addResource($restResource);
     }
 
-    /**
-     * @param string $sku
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface|null
-     */
     public function findAbstractProductImageSetsBySku(string $sku, RestRequestInterface $restRequest): ?RestResourceInterface
     {
         $abstractProductStorageData = $this->productStorageClient
@@ -133,12 +116,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
         return $this->buildProductImageSetsResource($sku, $productImageAbstractStorageTransfer);
     }
 
-    /**
-     * @param string $sku
-     * @param \Generated\Shared\Transfer\ProductAbstractImageStorageTransfer $productImageAbstractStorageTransfer
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface
-     */
     protected function buildProductImageSetsResource(
         string $sku,
         ProductAbstractImageStorageTransfer $productImageAbstractStorageTransfer
@@ -163,9 +140,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
         return $restResource;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     protected function createAbstractProductNotFoundError(): RestErrorMessageTransfer
     {
         $restErrorTransfer = (new RestErrorMessageTransfer())
@@ -176,9 +150,6 @@ class AbstractProductImageSetsReader implements AbstractProductImageSetsReaderIn
         return $restErrorTransfer;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     protected function createAbstractProductImageSetsNotFoundError(): RestErrorMessageTransfer
     {
         $restErrorTransfer = (new RestErrorMessageTransfer())

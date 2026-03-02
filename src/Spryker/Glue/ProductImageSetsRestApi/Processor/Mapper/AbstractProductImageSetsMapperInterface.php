@@ -12,11 +12,6 @@ use Generated\Shared\Transfer\RestProductImageSetsAttributesTransfer;
 
 interface AbstractProductImageSetsMapperInterface
 {
-    /**
-     * @param \Generated\Shared\Transfer\ProductAbstractImageStorageTransfer $productAbstractImageStorageTransfer
-     *
-     * @return \Generated\Shared\Transfer\RestProductImageSetsAttributesTransfer
-     */
     public function mapProductAbstractImageStorageTransferToRestProductImageSetsAttributesTransfer(
         ProductAbstractImageStorageTransfer $productAbstractImageStorageTransfer
     ): RestProductImageSetsAttributesTransfer;

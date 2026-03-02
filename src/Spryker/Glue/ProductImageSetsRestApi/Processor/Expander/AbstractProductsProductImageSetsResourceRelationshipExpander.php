@@ -17,9 +17,6 @@ class AbstractProductsProductImageSetsResourceRelationshipExpander implements Ab
      */
     protected $abstractProductImageSetsReader;
 
-    /**
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Processor\Reader\AbstractProductImageSetsReaderInterface $abstractProductImageSetsReader
-     */
     public function __construct(AbstractProductImageSetsReaderInterface $abstractProductImageSetsReader)
     {
         $this->abstractProductImageSetsReader = $abstractProductImageSetsReader;

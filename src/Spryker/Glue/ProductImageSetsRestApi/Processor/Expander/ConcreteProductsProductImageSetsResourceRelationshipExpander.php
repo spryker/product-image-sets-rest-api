@@ -17,9 +17,6 @@ class ConcreteProductsProductImageSetsResourceRelationshipExpander implements Co
      */
     protected $concreteProductImageSetsReader;
 
-    /**
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Processor\Reader\ConcreteProductImageSetsReaderInterface $concreteProductImageSetsReader
-     */
     public function __construct(ConcreteProductImageSetsReaderInterface $concreteProductImageSetsReader)
     {
         $this->concreteProductImageSetsReader = $concreteProductImageSetsReader;

@@ -53,12 +53,6 @@ class ConcreteProductImageSetsReader implements ConcreteProductImageSetsReaderIn
      */
     protected $concreteProductImageSetsMapper;
 
-    /**
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductStorageClientInterface $productStorageClient
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Dependency\Client\ProductImageSetsRestApiToProductImageStorageClientInterface $productImageStorageClient
-     * @param \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceBuilderInterface $restResponseBuilder
-     * @param \Spryker\Glue\ProductImageSetsRestApi\Processor\Mapper\ConcreteProductImageSetsMapperInterface $concreteProductImageSetsMapper
-     */
     public function __construct(
         ProductImageSetsRestApiToProductStorageClientInterface $productStorageClient,
         ProductImageSetsRestApiToProductImageStorageClientInterface $productImageStorageClient,
@@ -71,11 +65,6 @@ class ConcreteProductImageSetsReader implements ConcreteProductImageSetsReaderIn
         $this->concreteProductImageSetsMapper = $concreteProductImageSetsMapper;
     }
 
-    /**
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResponseInterface
-     */
     public function getConcreteProductImageSets(RestRequestInterface $restRequest): RestResponseInterface
     {
         $restResponse = $this->restResourceBuilder->createRestResponse();
@@ -99,12 +88,6 @@ class ConcreteProductImageSetsReader implements ConcreteProductImageSetsReaderIn
         return $restResponse->addResource($restResource);
     }
 
-    /**
-     * @param string $sku
-     * @param \Spryker\Glue\GlueApplication\Rest\Request\Data\RestRequestInterface $restRequest
-     *
-     * @return \Spryker\Glue\GlueApplication\Rest\JsonApi\RestResourceInterface|null
-     */
     public function findConcreteProductImageSetsBySku(string $sku, RestRequestInterface $restRequest): ?RestResourceInterface
     {
         $concreteProductStorageData = $this->productStorageClient
@@ -165,9 +148,6 @@ class ConcreteProductImageSetsReader implements ConcreteProductImageSetsReaderIn
         return $restResource;
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     protected function createConcreteProductNotFoundError(): RestErrorMessageTransfer
     {
         return (new RestErrorMessageTransfer())
@@ -176,9 +156,6 @@ class ConcreteProductImageSetsReader implements ConcreteProductImageSetsReaderIn
             ->setDetail(ProductsRestApiConfig::RESPONSE_DETAIL_CANT_FIND_CONCRETE_PRODUCT);
     }
 
-    /**
-     * @return \Generated\Shared\Transfer\RestErrorMessageTransfer
-     */
     protected function createConcreteProductImageSetsNotFoundError(): RestErrorMessageTransfer
     {
         $restErrorTransfer = (new RestErrorMessageTransfer())

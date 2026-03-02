@@ -24,12 +24,6 @@ class ProductImageSetsRestApiToProductImageStorageClientBridge implements Produc
         $this->productImageStorageClient = $productImageStorageClient;
     }
 
-    /**
-     * @param int $idProductAbstract
-     * @param string $locale
-     *
-     * @return \Generated\Shared\Transfer\ProductAbstractImageStorageTransfer|null
-     */
     public function findProductImageAbstractStorageTransfer(int $idProductAbstract, string $locale): ?ProductAbstractImageStorageTransfer
     {
         return $this->productImageStorageClient->findProductImageAbstractStorageTransfer($idProductAbstract, $locale);
