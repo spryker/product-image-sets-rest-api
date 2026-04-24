@@ -1,0 +1,47 @@
+resource:
+    name: ConcreteProductImageSets
+    shortName: concrete-product-image-sets
+    description: 'Storefront image sets for concrete products'
+
+    provider: Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Provider\ConcreteProductImageSetsStorefrontProvider
+
+    paginationEnabled: false
+
+    operations:
+        - type: GetCollection
+          uriTemplate: /concrete-products/{concreteProductSku}/concrete-product-image-sets
+          description: 'Retrieve image sets of a concrete product'
+
+        - type: GetCollection
+          name: getConcreteProductImageSetsFallbackMissingSku
+          uriTemplate: '/concrete-products/concrete-product-image-sets'
+          description: 'Backward compatibility — returns 404/302 when concrete product SKU is missing'
+
+    includableIn:
+        - resource: ConcreteProducts
+          relationshipName: concrete-product-image-sets
+          uriVariableMappings:
+              sku: concreteProductSku
+
+    properties:
+        concreteProductSku:
+            type: string
+            identifier: true
+            writable: false
+            readable: true
+            description: 'SKU of the parent concrete product'
+            openapiContext:
+                example: '001_25904006'
+
+        imageSets:
+            type: array
+            writable: false
+            readable: true
+            required: false
+            description: 'Collection of image sets for the product'
+            openapiContext:
+                example:
+                    - name: 'default'
+                      images:
+                          - externalUrlLarge: 'https://images.icecat.biz/img/gallery/25904006_8302.jpg'
+                            externalUrlSmall: 'https://images.icecat.biz/img/gallery_mediums/25904006_8302.jpg'

@@ -1,0 +1,47 @@
+resource:
+    name: AbstractProductImageSets
+    shortName: abstract-product-image-sets
+    description: 'Storefront image sets for abstract products'
+
+    provider: Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Provider\AbstractProductImageSetsStorefrontProvider
+
+    paginationEnabled: false
+
+    operations:
+        - type: GetCollection
+          uriTemplate: /abstract-products/{abstractProductSku}/abstract-product-image-sets
+          description: 'Retrieve image sets of an abstract product'
+
+        - type: GetCollection
+          name: getAbstractProductImageSetsFallbackMissingSku
+          uriTemplate: '/abstract-products/abstract-product-image-sets'
+          description: 'Backward compatibility — returns 404/301 when abstract product SKU is missing'
+
+    includableIn:
+        - resource: AbstractProducts
+          relationshipName: abstract-product-image-sets
+          uriVariableMappings:
+              sku: abstractProductSku
+
+    properties:
+        abstractProductSku:
+            type: string
+            identifier: true
+            writable: false
+            readable: true
+            description: 'SKU of the parent abstract product'
+            openapiContext:
+                example: '001'
+
+        imageSets:
+            type: array
+            writable: false
+            readable: true
+            required: false
+            description: 'Collection of image sets for the product'
+            openapiContext:
+                example:
+                    - name: 'default'
+                      images:
+                          - externalUrlLarge: 'https://images.icecat.biz/img/gallery/25904006_8302.jpg'
+                            externalUrlSmall: 'https://images.icecat.biz/img/gallery_mediums/25904006_8302.jpg'
