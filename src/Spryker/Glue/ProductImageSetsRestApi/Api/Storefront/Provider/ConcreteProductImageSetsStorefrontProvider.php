@@ -11,13 +11,10 @@ namespace Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Provider;
 
 use Generated\Api\Storefront\ConcreteProductImageSetsStorefrontResource;
 use Generated\Shared\Transfer\ProductConcreteStorageTransfer;
-use Spryker\ApiPlatform\Exception\GlueApiException;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
 use Spryker\Client\ProductImageStorage\ProductImageStorageClientInterface;
 use Spryker\Client\ProductStorage\ProductStorageClientInterface;
-use Spryker\Glue\ProductImageSetsRestApi\ProductImageSetsRestApiConfig;
-use Spryker\Glue\ProductsRestApi\ProductsRestApiConfig;
-use Symfony\Component\HttpFoundation\Response;
+use Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Exception\ProductImageSetsExceptionFactory;
 
 class ConcreteProductImageSetsStorefrontProvider extends AbstractStorefrontProvider
 {
@@ -28,6 +25,7 @@ class ConcreteProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
     public function __construct(
         protected ProductStorageClientInterface $productStorageClient,
         protected ProductImageStorageClientInterface $productImageStorageClient,
+        protected ProductImageSetsExceptionFactory $exceptionFactory = new ProductImageSetsExceptionFactory(),
     ) {
     }
 
@@ -48,11 +46,7 @@ class ConcreteProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
         );
 
         if ($productConcreteData === null) {
-            throw new GlueApiException(
-                Response::HTTP_NOT_FOUND,
-                ProductImageSetsRestApiConfig::RESPONSE_CODE_CONCRETE_PRODUCT_IMAGE_SETS_NOT_FOUND,
-                ProductImageSetsRestApiConfig::RESPONSE_DETAIL_CONCRETE_PRODUCT_IMAGE_SETS_NOT_FOUND,
-            );
+            throw $this->exceptionFactory->createConcreteProductImageSetsNotFoundException();
         }
 
         $concreteTransfer = (new ProductConcreteStorageTransfer())->fromArray($productConcreteData, true);
@@ -64,7 +58,7 @@ class ConcreteProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
 
         $imageSets = [];
         foreach ($imageStorageTransfers ?? [] as $imageStorageTransfer) {
-            $imageSets[] = $imageStorageTransfer->toArray();
+            $imageSets[] = $imageStorageTransfer->toArray(true, true);
         }
 
         $resource = new ConcreteProductImageSetsStorefrontResource();
@@ -77,24 +71,15 @@ class ConcreteProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
     protected function resolveConcreteProductSku(): string
     {
         if (!$this->hasUriVariable(static::URI_VAR_SKU)) {
-            $this->throwConcreteProductNotFound();
+            throw $this->exceptionFactory->createConcreteProductNotFoundException();
         }
 
         $sku = (string)$this->getUriVariable(static::URI_VAR_SKU);
 
         if ($sku === '') {
-            $this->throwConcreteProductNotFound();
+            throw $this->exceptionFactory->createConcreteProductNotFoundException();
         }
 
         return $sku;
-    }
-
-    protected function throwConcreteProductNotFound(): never
-    {
-        throw new GlueApiException(
-            Response::HTTP_NOT_FOUND,
-            ProductsRestApiConfig::RESPONSE_CODE_CANT_FIND_CONCRETE_PRODUCT,
-            ProductsRestApiConfig::RESPONSE_DETAIL_CANT_FIND_CONCRETE_PRODUCT,
-        );
     }
 }

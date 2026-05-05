@@ -11,13 +11,10 @@ namespace Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Provider;
 
 use Generated\Api\Storefront\AbstractProductImageSetsStorefrontResource;
 use Generated\Shared\Transfer\ProductAbstractImageStorageTransfer;
-use Spryker\ApiPlatform\Exception\GlueApiException;
 use Spryker\ApiPlatform\State\Provider\AbstractStorefrontProvider;
 use Spryker\Client\ProductImageStorage\ProductImageStorageClientInterface;
 use Spryker\Client\ProductStorage\ProductStorageClientInterface;
-use Spryker\Glue\ProductImageSetsRestApi\ProductImageSetsRestApiConfig;
-use Spryker\Glue\ProductsRestApi\ProductsRestApiConfig;
-use Symfony\Component\HttpFoundation\Response;
+use Spryker\Glue\ProductImageSetsRestApi\Api\Storefront\Exception\ProductImageSetsExceptionFactory;
 
 class AbstractProductImageSetsStorefrontProvider extends AbstractStorefrontProvider
 {
@@ -30,6 +27,7 @@ class AbstractProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
     public function __construct(
         protected ProductStorageClientInterface $productStorageClient,
         protected ProductImageStorageClientInterface $productImageStorageClient,
+        protected ProductImageSetsExceptionFactory $exceptionFactory = new ProductImageSetsExceptionFactory(),
     ) {
     }
 
@@ -50,11 +48,7 @@ class AbstractProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
         );
 
         if ($productAbstractData === null) {
-            throw new GlueApiException(
-                Response::HTTP_NOT_FOUND,
-                ProductImageSetsRestApiConfig::RESPONSE_CODE_ABSTRACT_PRODUCT_IMAGE_SETS_NOT_FOUND,
-                ProductImageSetsRestApiConfig::RESPONSE_DETAIL_ABSTRACT_PRODUCT_IMAGE_SETS_NOT_FOUND,
-            );
+            throw $this->exceptionFactory->createAbstractProductImageSetsNotFoundException();
         }
 
         $idProductAbstract = (int)($productAbstractData[static::KEY_ID_PRODUCT_ABSTRACT] ?? 0);
@@ -65,7 +59,7 @@ class AbstractProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
 
         $resource = new AbstractProductImageSetsStorefrontResource();
         $resource->abstractProductSku = $sku;
-        $resource->imageSets = $this->normalizeImageSets($imageStorageTransfer->toArray()['imageSets'] ?? []);
+        $resource->imageSets = $this->normalizeImageSets($imageStorageTransfer->toArray(true, true)['imageSets'] ?? []);
 
         return [$resource];
     }
@@ -73,25 +67,16 @@ class AbstractProductImageSetsStorefrontProvider extends AbstractStorefrontProvi
     protected function resolveAbstractProductSku(): string
     {
         if (!$this->hasUriVariable(static::URI_VAR_SKU)) {
-            $this->throwAbstractProductNotFound();
+            throw $this->exceptionFactory->createAbstractProductNotFoundException();
         }
 
         $sku = (string)$this->getUriVariable(static::URI_VAR_SKU);
 
         if ($sku === '') {
-            $this->throwAbstractProductNotFound();
+            throw $this->exceptionFactory->createAbstractProductNotFoundException();
         }
 
         return $sku;
-    }
-
-    protected function throwAbstractProductNotFound(): never
-    {
-        throw new GlueApiException(
-            Response::HTTP_NOT_FOUND,
-            ProductsRestApiConfig::RESPONSE_CODE_CANT_FIND_ABSTRACT_PRODUCT,
-            ProductsRestApiConfig::RESPONSE_DETAIL_CANT_FIND_ABSTRACT_PRODUCT,
-        );
     }
 
     /**
