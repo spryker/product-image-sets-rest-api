@@ -17,12 +17,6 @@ resource:
           uriTemplate: '/abstract-products/abstract-product-image-sets'
           description: 'Backward compatibility — returns 404/301 when abstract product SKU is missing'
 
-    includableIn:
-        - resource: AbstractProducts
-          relationshipName: abstract-product-image-sets
-          uriVariableMappings:
-              sku: abstractProductSku
-
     properties:
         abstractProductSku:
             type: string
