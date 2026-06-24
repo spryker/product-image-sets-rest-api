@@ -12,31 +12,43 @@ use Spryker\Glue\Kernel\AbstractBundleConfig;
 class ProductImageSetsRestApiConfig extends AbstractBundleConfig
 {
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_ABSTRACT_PRODUCT_IMAGE_SETS = 'abstract-product-image-sets';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESOURCE_CONCRETE_PRODUCT_IMAGE_SETS = 'concrete-product-image-sets';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_ABSTRACT_PRODUCT_IMAGE_SETS_NOT_FOUND = '303';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAIL_ABSTRACT_PRODUCT_IMAGE_SETS_NOT_FOUND = 'Can`t find abstract product image sets.';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_CODE_CONCRETE_PRODUCT_IMAGE_SETS_NOT_FOUND = '304';
 
     /**
+     * @api
+     *
      * @var string
      */
     public const RESPONSE_DETAIL_CONCRETE_PRODUCT_IMAGE_SETS_NOT_FOUND = 'Can`t find concrete product image sets.';
